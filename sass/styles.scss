@@ -1,0 +1,243 @@
+// Mixins
+
+// import all Compass core mixins
+@import "compass";
+
+// SVG images with fallback for older browsers (via Modernizr)
+		
+@mixin svg-graphic($imgfilename, $imgtype, $imgwidth, $imgheight) {
+	.no-svg &,
+	.no-js & {
+		background-image: url('../images/' + $imgfilename + '.' + $imgtype);
+	}
+	.svg & {
+		background-image: url('../images/' + $imgfilename + '.svg');
+		-webkit-background-size: $imgwidth $imgheight;
+		   -moz-background-size: $imgwidth $imgheight;
+		     -o-background-size: $imgwidth $imgheight;
+		        background-size: $imgwidth $imgheight;
+	}
+}
+
+// higher resolution images for high resolution displays
+		
+@mixin hires-graphic($hdfile, $hdtype, $hdwidth, $hdheight) {
+	$filename: $hdfile + '.' + $hdtype;
+	$hdfilename: $hdfile + '@2x.' + $hdtype;
+	background-image: url('../images/' + $filename);
+	@media print, (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
+		background-image: url('../images/' + $hdfilename) !important;
+		-webkit-background-size: $hdwidth $hdheight;
+		        background-size: $hdwidth $hdheight;
+	}
+}
+
+// Text gradient
+@mixin text-gradient($from, $to){
+	background: -webkit-linear-gradient($from, $to);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+// User select
+@mixin user-select($value){
+	-webkit-touch-callout: $value;
+	-webkit-user-select: $value;
+	-khtml-user-select: $value;
+	-moz-user-select: $value;
+	-ms-user-select: $value;
+	user-select: $value;
+}
+
+*{
+	@include transition(all 200ms linear);
+}
+
+/* Icons */
+
+.icons, .controls {
+	text-align: center;
+	clear: both;
+}
+.icons {
+	width: 100%;
+	padding: 0;
+	margin-bottom: 1em;
+
+	li{
+		@include inline-block;
+		list-style: none;
+	}
+	.fa { 
+		margin: .2em .1em;
+		color: #ddd;
+	}
+	i.back{
+		display: none;
+	}
+}
+
+/* Colours */
+.colour {
+	.fa-facebook-square { color: #3b5998; }
+	.fa-twitter-square { color: #00a0d1; }
+	.fa-google-plus-square { color: #db4a39; }
+	.fa-linkedin-square { color: #0e76a8; }
+}
+
+/* shadows */
+
+.shadow{
+	.fa {
+		text-shadow: .025em .025em #ccc;
+	}
+	&.gradient .fa {
+		text-shadow: none;
+	}
+}
+
+/* Gradients */
+
+.gradient {
+	.fa.front {
+		color: #ddd;
+		@include text-gradient(#eee, #bbb);
+	}
+
+	&.colour{
+		.fa-facebook-square.front {
+			color: #3b5998;
+			@include text-gradient(#3b5998, #23355B);
+		}
+		.fa-twitter-square.front {
+			color: #00a0d1;
+			@include text-gradient(#00a0d1, #00607D);
+		}
+		.fa-linkedin-square.front {
+			color: #0e76a8;
+			@include text-gradient(#0e76a8, #084765);
+		}
+		.fa-google-plus-square.front {
+			color: #db4a39;
+			@include text-gradient(#db4a39, #832C22);
+		}
+	}
+	&.shadow{
+		i.back {
+			display: inline-block;
+			position: relative; 
+			left: .025em; 
+			top: .025em; 
+			color: #ccc; 
+		}
+
+		i.front {
+			position: absolute;
+			z-index: 1;
+		}
+	}
+}
+
+/* Lists */
+
+.button, .menu{
+	list-style: none;
+	padding: 0;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	i{
+		margin-right: .5em;
+	}
+} 
+
+/* Buttons */
+
+.button{
+	width: 8em;
+	margin-left: auto;
+	margin-right: auto;
+	li{
+		display: block;
+		padding: .2em .8em;
+		margin-bottom: .8em;
+		cursor: pointer;
+		color: #fff;
+		@include border-radius(5px);
+		&.edit{
+			background-color: #65cc7b;
+			@include box-shadow(0px 2px 0px 0px #4b9e5a);
+			&:hover{
+				background-color: #57af6a
+			}
+			&:active{
+				@include box-shadow(0px 2px 0px 0px #57af6a);
+			}
+		}
+		&.add{
+			background-color: #f9b14b;
+			@include box-shadow(0px 2px 0px 0px #da8c2b);
+			&:hover{
+				background-color: #e2a144;
+			}
+			&:active{
+				@include box-shadow(0px 2px 0px 0px #e2a144);
+			}
+		}
+		&.update{
+			background-color: #5db8f7;
+			@include box-shadow(0px 2px 0px 0px #3494d6);
+			&:hover{
+				background-color: #54a6df;
+			}
+			&:active{
+				@include box-shadow(0px 2px 0px 0px #54a6df);
+			}
+		}
+		&.delete{
+			background-color: #e16955;
+			@include box-shadow(0px 2px 0px 0px #a13825);
+			&:hover{
+				background-color: #d56350;
+			}
+			&:active{
+				@include box-shadow(0px 2px 0px 0px #d56350);
+			}
+		}
+	}
+}
+
+/* Menus */
+
+.menu{
+	@include inline-block;
+	width: 100%;
+	background-color: #ccc;
+	@include box-sizing(border-box);
+	padding: 0 .6em;
+	li{
+		color: #fff;
+		text-shadow: 1px 1px 2px #666;
+		float: left;
+		cursor: pointer;
+		padding: .6em;
+		&:hover{
+			background-color: #ddd;
+		}
+	}
+}
+
+/* Lightflows */
+
+.lightflows{
+	display: block;
+	position: fixed;
+	text-indent: -9999px;
+	bottom: 0;
+	right: 0;
+	width: 66px;
+	height: 16px;
+	padding: .6em;
+	@include user-select(none);
+	background-position: center center;
+	background-repeat: no-repeat;
+	@include svg-graphic(lf-mini,png,66px,16px);
+}
