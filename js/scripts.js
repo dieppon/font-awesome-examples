@@ -1,5 +1,9 @@
 jQuery(document).ready(function($) {
 
+	if ( self !== top ) {
+		$('body').addClass('is-iframe');
+	}
+
 	$("button.colour").click(function(){
 		$("ul.icons").toggleClass("colour");
 		$(this).toggleClass("active");
